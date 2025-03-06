@@ -1,0 +1,15 @@
+# CREATE DATA
+curl -X POST "http://127.0.0.1:3000/api/tasks" -H "Content-Type: application/json" -d '{
+  "title": "Task Title",
+  "description": "Task Description",
+  "status": "pending",
+  "due_date": "2025-03-15"
+}'
+
+# UPDATE DATA BY ID
+curl -X PUT "http://127.0.0.1:3000/api/tasks/1" -H "Content-Type: application/json" -d '{
+  "title": "Updated Task Title",
+  "description": "Updated Task Description",
+  "status": "completed",
+  "due_date": "2025-03-20"
+}'
