@@ -17,6 +17,7 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 
 	config.ConnectDatabase()
+	config.ConnectRedis()
 	migrations.RunMigration()
 
 	router := gin.Default()
