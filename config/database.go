@@ -13,9 +13,20 @@ import (
 var DB *gorm.DB
 
 func ConnectDatabase() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	if os.Getenv("DB_HOST") == "" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Println("[!] Warning: .env file not found, using system environment variables")
+		} else {
+			log.Println("[V] .env file loaded successfully")
+		}
+	}
+
+	requiredEnvs := []string{"DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME", "DB_PORT", "DB_SSLMODE"}
+	for _, env := range requiredEnvs {
+		if os.Getenv(env) == "" {
+			log.Fatalf("[X] Missing required environment variable: %s", env)
+		}
 	}
 
 	dsn := fmt.Sprintf(
@@ -30,9 +41,9 @@ func ConnectDatabase() {
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Failed to connect to database:", err)
+		log.Fatalf("[X] Failed to connect to database: %v", err)
 	}
 
 	DB = db
-	fmt.Println("[V] Connected to the database")
+	log.Println("[V] Connected to the database")
 }
