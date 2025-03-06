@@ -34,5 +34,5 @@ func ConnectDatabase() {
 	}
 
 	DB = db
-	fmt.Println("✅ Connected to the database")
+	fmt.Println("[V] Connected to the database")
 }

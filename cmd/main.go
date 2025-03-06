@@ -27,6 +27,6 @@ func main() {
 
 	routes.RegisterAPIRoutes(router, taskHandler)
 
-	log.Println("🚀 Server running on port 3000")
+	log.Println("[...] Server running on port 3000")
 	log.Fatal(router.Run(":3000"))
 }

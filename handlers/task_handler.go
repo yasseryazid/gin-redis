@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"sync"
@@ -33,6 +34,7 @@ func (h *TaskHandler) GetTasks(c *gin.Context) {
 		var err error
 		tasks, _, err = h.Service.GetTasks(status, search, page, limit)
 		if err != nil {
+			log.Printf("[X] Error fetching tasks: %v\n", err)
 			errChan <- err
 		}
 	}()
@@ -43,6 +45,7 @@ func (h *TaskHandler) GetTasks(c *gin.Context) {
 		var err error
 		_, total, err = h.Service.GetTasks(status, search, 1, 1) // Only count total
 		if err != nil {
+			log.Printf("[X] Error counting tasks: %v\n", err)
 			errChan <- err
 		}
 	}()
@@ -54,6 +57,7 @@ func (h *TaskHandler) GetTasks(c *gin.Context) {
 	// Check for errors
 	for err := range errChan {
 		if err != nil {
+			log.Printf("[X] Failed to fetch tasks: %v\n", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch tasks"})
 			return
 		}
@@ -61,6 +65,7 @@ func (h *TaskHandler) GetTasks(c *gin.Context) {
 
 	totalPages := (total + limit - 1) / limit
 
+	log.Printf("[V] Successfully fetched tasks (page %d, limit %d)\n", page, limit)
 	c.JSON(http.StatusOK, gin.H{
 		"tasks": presenters.FormatTaskList(tasks),
 		"pagination": gin.H{
@@ -75,20 +80,24 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	var task models.Task
 
 	if err := c.ShouldBindJSON(&task); err != nil {
+		log.Printf("[X] Invalid request body: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
 
 	if err := validateTask(&task); err != nil {
+		log.Printf("[X] Task validation failed: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if err := h.Service.CreateTask(&task); err != nil {
+		log.Printf("[X] Failed to create task: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create task"})
 		return
 	}
 
+	log.Printf("[V] Task created successfully: ID %d\n", task.ID)
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Task created successfully",
 		"task":    presenters.FormatTask(&task),
@@ -98,46 +107,72 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 func (h *TaskHandler) GetTaskByID(c *gin.Context) {
 	id, err := parseIDParam(c)
 	if err != nil {
+		log.Printf("[X] Invalid task ID: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
 		return
 	}
 
 	task, err := h.Service.GetTaskByID(id)
 	if err != nil {
+		log.Printf("[X] Task not found (ID %d): %v\n", id, err)
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
 	}
 
+	log.Printf("[V] Task retrieved: ID %d\n", id)
 	c.JSON(http.StatusOK, presenters.FormatTask(task))
 }
 
 func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	id, err := parseIDParam(c)
 	if err != nil {
+		log.Printf("[X] Invalid task ID: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
 		return
 	}
 
 	var updatedTask models.Task
 	if err := c.ShouldBindJSON(&updatedTask); err != nil {
+		log.Printf("[X] Invalid request body: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
 
 	if err := validateTask(&updatedTask); err != nil {
+		log.Printf("[X] Task validation failed: %v\n", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	if err := h.Service.UpdateTask(id, &updatedTask); err != nil {
+		log.Printf("[X] Task update failed (ID %d): %v\n", id, err)
 		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
 		return
 	}
 
+	log.Printf("[V] Task updated successfully: ID %d\n", id)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Task updated successfully",
-		"task":    presenters.FormatTask(&updatedTask), // ✅ Use Presenter
+		"task":    presenters.FormatTask(&updatedTask),
 	})
+}
+
+func (h *TaskHandler) DeleteTask(c *gin.Context) {
+	id, err := parseIDParam(c)
+	if err != nil {
+		log.Printf("[X] Invalid task ID: %v\n", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
+		return
+	}
+
+	if err := h.Service.DeleteTask(id); err != nil {
+		log.Printf("[X] Task deletion failed (ID %d): %v\n", id, err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
+	}
+
+	log.Printf("[V] Task deleted successfully: ID %d\n", id)
+	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully"})
 }
 
 func parseQueryParams(c *gin.Context) (string, string, int, int) {
@@ -165,19 +200,4 @@ func validateTask(task *models.Task) error {
 		return fmt.Errorf("Invalid status. Use 'pending' or 'completed'")
 	}
 	return nil
-}
-
-func (h *TaskHandler) DeleteTask(c *gin.Context) {
-	id, err := parseIDParam(c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID"})
-		return
-	}
-
-	if err := h.Service.DeleteTask(id); err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully"})
 }

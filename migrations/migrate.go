@@ -9,10 +9,10 @@ import (
 
 func RunMigration() {
 	if err := config.DB.AutoMigrate(&models.Task{}); err != nil {
-		fmt.Println("❌ Migration failed:", err)
+		fmt.Println("[X] Migration failed:", err)
 		return
 	}
-	fmt.Println("✅ Migration successful")
+	fmt.Println("[V] Migration successful")
 
 	insertDummyIntoTaskTable()
 }
@@ -22,7 +22,7 @@ func insertDummyIntoTaskTable() {
 	config.DB.Model(&models.Task{}).Count(&count)
 
 	if count > 0 {
-		fmt.Println("⚠️ Dummy data already exists, skipping insertion")
+		fmt.Println("[!] Dummy data already exists, skipping insertion")
 		return
 	}
 
@@ -33,9 +33,9 @@ func insertDummyIntoTaskTable() {
 	}
 
 	if err := config.DB.Create(&dummyTasks).Error; err != nil {
-		fmt.Println("❌ Failed to insert dummy data:", err)
+		fmt.Println("[X] Failed to insert dummy data:", err)
 		return
 	}
 
-	fmt.Println("✅ Dummy data inserted into 'tasks' table")
+	fmt.Println("[V] Dummy data inserted into 'tasks' table")
 }
