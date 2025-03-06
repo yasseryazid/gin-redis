@@ -10,17 +10,16 @@ import (
 func RegisterAPIRoutes(router *gin.Engine, taskHandler *handlers.TaskHandler) {
 	api := router.Group("/api")
 
-	// ✅ Register authentication routes
 	userRepo := repositories.NewUserRepository()
-	authHandler := &handlers.AuthHandler{UserRepo: userRepo} // Use pointer
+	authHandler := &handlers.AuthHandler{UserRepo: userRepo}
 
-	api.POST("/register", authHandler.Register) // Public route
-	api.POST("/login", authHandler.Login)       // Public route
+	api.POST("/register", authHandler.Register)
+	api.POST("/login", authHandler.Login)
+	api.POST("/logout", authHandler.Logout)
 
-	// ✅ Secure Task Routes with JWT Middleware
 	taskRoutes := api.Group("/tasks")
-	taskRoutes.Use(middlewares.AuthMiddleware()) // Apply JWT auth middleware
+	taskRoutes.Use(middlewares.AuthMiddleware())
 	{
-		RegisterTaskRoutes(taskRoutes, taskHandler) // Use existing function
+		RegisterTaskRoutes(taskRoutes, taskHandler)
 	}
 }
