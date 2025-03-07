@@ -109,7 +109,9 @@ Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 | `search`   | `string` | Cari task berdasarkan `title` atau `description` |
 
 ### **Auth Endpoint**
-#### **1. Register**
+<details>
+  <summary>📌 **1. Register**</summary>
+
 ```sh
 POST /api/register
 
@@ -128,8 +130,11 @@ POST /api/register
     "message": "User registered successfully"
 }
 ```
+</details>
 
-#### **2. Login**
+<details>
+  <summary>📌 **2. Login**</summary>
+
 ```sh
 POST /api/login
 
@@ -147,9 +152,13 @@ POST /api/login
 {
     "token": "{{TOKEN_GENERATED}}"
 }
-```
 
-#### **3. Logout**
+```
+</details>
+
+<details>
+  <summary>📌 **3. Logout**</summary>
+
 ```sh
 POST /api/logout
 
@@ -167,7 +176,7 @@ POST /api/logout
     "message": "Logged out successfully"
 }
 ```
-
+</details>
 
 ### **All Tasks Endpoint**
 #### **1. Get All Task**
