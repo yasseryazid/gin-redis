@@ -12,8 +12,7 @@ Technical Test API adalah **RESTful API** yang dibangun dengan **Go (Gin)** meng
 ## 📌 Fitur Utama
 ✅ **Autentikasi & Otorisasi dengan JWT + Redis**  
 ✅ **CRUD Tasks dengan caching Redis**  
-✅ **Middleware Proteksi JWT**  
-✅ **Rate Limiting dengan Redis**  
+✅ **Middleware Proteksi JWT**    
 ✅ **Database PostgreSQL dengan GORM**  
 ✅ **Logging setiap error untuk debugging**  
 ✅ **Concurrency pada query & proses parallel task handling**  
