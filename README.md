@@ -112,7 +112,7 @@ Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 | `PUT`  | `/api/tasks/:id` | Update task |
 | `DELETE` | `/api/tasks/:id` | Delete task |
 
-#### **Query Parameters Get All Tasks**
+#### **Query Parameters Untuk Get All Tasks**
 | Parameter  | Tipe   | Deskripsi |
 |------------|--------|-------------|
 | `status`   | `string` | Filter tasks berdasarkan status (`pending` / `completed`) |
@@ -126,7 +126,7 @@ curl -X GET http://localhost:3000/api/tasks \
      -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
-**Contoh response get all tasks dengan JWT Token:**
+**Response get all tasks dengan JWT Token:**
 ```sh
 {
   "tasks": [
@@ -146,14 +146,30 @@ curl -X GET http://localhost:3000/api/tasks \
 }
 ```
 
+**Response get all tasks jika tanpa token:**
+```sh
+{
+  "error": "Authorization header required"
+}
+```
+
 ---
 
-#### **Query Parameters Get All Tasks**
+#### **Query Parameters Create Task**
 #### **Endpoint**
 ```sh
 POST /api/tasks
+
 ```
-#### **📥 Request Body**
+#### **Header**
+```sh
+{
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+}
+```
+
+
+#### **Payload**
 ```sh
 {
   "title": "New Task",
@@ -163,29 +179,42 @@ POST /api/tasks
 }
 ```
 
-#### **📌 Contoh Response**
+#### **Response**
 ```sh
 {
-  "message": "Task created successfully",
-  "task": {
-    "id": 12,
-    "title": "New Task",
-    "description": "Complete documentation",
-    "status": "pending",
-    "due_date": "2025-04-01"
-  }
+    "message": "Task created successfully",
+    "task": {
+        "title": "Create new Task",
+        "description": "Create new description",
+        "status": "completed",
+        "due_date": "2025-05-01"
+    }
 }
 ```
 
 ---
 
-### **3️⃣ Get Task by ID**
+### **Get Task by ID**
 ```http
 GET /api/tasks/:id
 ```
-**Contoh Request:**
+
+#### **Header**
 ```sh
-curl -X GET "http://localhost:3000/api/tasks/1" -H "Authorization: Bearer YOUR_JWT_TOKEN"
+{
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+}
+```
+
+**Response:**
+```sh
+{
+  "id": 2,
+  "title": "Task 2",
+  "description": "Description for Task 2",
+  "status": "completed",
+  "due_date": "2025-03-12T00:00:00Z"
+}
 ```
 
 ---
@@ -194,28 +223,53 @@ curl -X GET "http://localhost:3000/api/tasks/1" -H "Authorization: Bearer YOUR_J
 ```http
 PUT /api/tasks/:id
 ```
-**Contoh Request:**
+#### **Header**
 ```sh
-curl -X PUT "http://localhost:3000/api/tasks/1" \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-     -d '{
-       "title": "Updated Task",
-       "description": "Updated description",
-       "status": "completed",
-       "due_date": "2025-05-01"
-     }'
+{
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+}
+```
+
+**Payload:**
+```sh
+{
+  "title": "Update Task",
+  "description": "Update description",
+  "status": "completed",
+  "due_date": "2025-05-01"
+}
+```
+**Response:**
+```sh
+{
+    "message": "Task updated successfully",
+    "task": {
+        "title": "Update Task",
+        "description": "Update description",
+        "status": "completed",
+        "due_date": "2025-05-01"
+    }
+}
 ```
 
 ---
 
-### **5️⃣ Delete Task**
+### **Delete Task**
 ```http
 DELETE /api/tasks/:id
 ```
-**Contoh Request:**
+#### **Header**
 ```sh
-curl -X DELETE "http://localhost:3000/api/tasks/1" -H "Authorization: Bearer YOUR_JWT_TOKEN"
+{
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+}
+```
+
+**Response:**
+```sh
+{
+    "message": "Task deleted successfully"
+}
 ```
 
 ---

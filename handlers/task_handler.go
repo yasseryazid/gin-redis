@@ -100,7 +100,7 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	log.Printf("[V] Task created successfully: ID %d\n", task.ID)
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "Task created successfully",
-		"task":    presenters.FormatTask(&task),
+		"task":    presenters.FormatTaskDetail(&task),
 	})
 }
 
@@ -153,7 +153,7 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	log.Printf("[V] Task updated successfully: ID %d\n", id)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Task updated successfully",
-		"task":    presenters.FormatTask(&updatedTask),
+		"task":    presenters.FormatTaskDetail(&updatedTask),
 	})
 }
 

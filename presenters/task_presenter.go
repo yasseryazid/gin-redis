@@ -1,9 +1,20 @@
 package presenters
 
-import "github.com/yasseryazid/technical-test/models"
+import (
+	"strconv"
+
+	"github.com/yasseryazid/technical-test/models"
+)
 
 type TaskResponse struct {
-	ID          uint   `json:"id"`
+	ID          string `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Status      string `json:"status"`
+	DueDate     string `json:"due_date"`
+}
+
+type TaskDetailResponse struct {
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Status      string `json:"status"`
@@ -12,7 +23,7 @@ type TaskResponse struct {
 
 func FormatTask(task *models.Task) TaskResponse {
 	return TaskResponse{
-		ID:          task.ID,
+		ID:          strconv.FormatUint(uint64(task.ID), 10),
 		Title:       task.Title,
 		Description: task.Description,
 		Status:      task.Status,
@@ -26,4 +37,13 @@ func FormatTaskList(tasks []models.Task) []TaskResponse {
 		formattedTasks[i] = FormatTask(&task)
 	}
 	return formattedTasks
+}
+
+func FormatTaskDetail(task *models.Task) TaskDetailResponse {
+	return TaskDetailResponse{
+		Title:       task.Title,
+		Description: task.Description,
+		Status:      task.Status,
+		DueDate:     task.DueDate,
+	}
 }
