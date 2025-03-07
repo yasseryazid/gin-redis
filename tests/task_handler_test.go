@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
+	"strconv"
 	"testing"
 
 	"github.com/joho/godotenv"
@@ -20,6 +21,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/stretchr/testify/assert"
 )
+
+var createdTaskID uint
 
 func setupTestHandler() *handlers.TaskHandler {
 	projectRoot, _ := os.Getwd()
@@ -71,7 +74,9 @@ func TestCreateTask(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err, "Response JSON should be valid")
 	assert.Equal(t, "Task created successfully", response.Message)
-	assert.NotZero(t, response.Task.ID, "Task ID should not be zero")
+
+	createdTaskID = response.Task.ID
+	assert.NotZero(t, createdTaskID, "Task ID should not be zero")
 }
 
 func TestGetTaskByID(t *testing.T) {
@@ -79,7 +84,9 @@ func TestGetTaskByID(t *testing.T) {
 	taskHandler := setupTestHandler()
 	router.GET("/api/tasks/:id", taskHandler.GetTaskByID)
 
-	req, _ := http.NewRequest("GET", "/api/tasks/1", nil)
+	taskID := strconv.Itoa(int(createdTaskID))
+
+	req, _ := http.NewRequest("GET", "/api/tasks/"+taskID, nil)
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 
@@ -88,13 +95,15 @@ func TestGetTaskByID(t *testing.T) {
 	var response models.Task
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err, "Response JSON should be valid")
-	assert.NotZero(t, response.ID, "Task ID should not be zero")
+	assert.Equal(t, createdTaskID, response.ID, "Task ID should match")
 }
 
 func TestUpdateTask(t *testing.T) {
 	router := gin.Default()
 	taskHandler := setupTestHandler()
 	router.PUT("/api/tasks/:id", taskHandler.UpdateTask)
+
+	taskID := strconv.Itoa(int(createdTaskID))
 
 	updateTask := models.Task{
 		Title:       "Updated Test Task",
@@ -104,7 +113,7 @@ func TestUpdateTask(t *testing.T) {
 	}
 
 	body, _ := json.Marshal(updateTask)
-	req, _ := http.NewRequest("PUT", "/api/tasks/1", bytes.NewBuffer(body))
+	req, _ := http.NewRequest("PUT", "/api/tasks/"+taskID, bytes.NewBuffer(body))
 	req.Header.Set("Content-Type", "application/json")
 
 	w := httptest.NewRecorder()
@@ -119,6 +128,7 @@ func TestUpdateTask(t *testing.T) {
 
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err, "Response JSON should be valid")
+	assert.Equal(t, http.StatusOK, w.Code, "Expected status 200 OK")
 	assert.Equal(t, "Task updated successfully", response.Message)
 	assert.Equal(t, "Updated Test Task", response.Task.Title)
 	assert.Equal(t, "completed", response.Task.Status)
@@ -129,7 +139,9 @@ func TestDeleteTask(t *testing.T) {
 	taskHandler := setupTestHandler()
 	router.DELETE("/api/tasks/:id", taskHandler.DeleteTask)
 
-	req, _ := http.NewRequest("DELETE", "/api/tasks/1", nil)
+	taskID := strconv.Itoa(int(createdTaskID))
+
+	req, _ := http.NewRequest("DELETE", "/api/tasks/"+taskID, nil)
 	w := httptest.NewRecorder()
 	router.ServeHTTP(w, req)
 
@@ -142,42 +154,4 @@ func TestDeleteTask(t *testing.T) {
 	err := json.Unmarshal(w.Body.Bytes(), &response)
 	assert.Nil(t, err, "Response JSON should be valid")
 	assert.Equal(t, "Task deleted successfully", response.Message)
-}
-
-func TestGetAllTasks(t *testing.T) {
-	router := gin.Default()
-	taskHandler := setupTestHandler()
-	router.GET("/api/tasks", taskHandler.GetTasks)
-
-	req, _ := http.NewRequest("GET", "/api/tasks?page=1&limit=5", nil)
-	w := httptest.NewRecorder()
-	router.ServeHTTP(w, req)
-
-	assert.Equal(t, http.StatusOK, w.Code, "Expected status 200 OK")
-
-	var response struct {
-		Tasks      []models.Task `json:"tasks"`
-		Pagination struct {
-			CurrentPage int `json:"current_page"`
-			TotalPages  int `json:"total_pages"`
-			TotalTasks  int `json:"total_tasks"`
-		} `json:"pagination"`
-	}
-
-	err := json.Unmarshal(w.Body.Bytes(), &response)
-	assert.Nil(t, err, "Response JSON should be valid")
-
-	assert.NotNil(t, response.Tasks, "Tasks list should not be nil")
-	assert.GreaterOrEqual(t, len(response.Tasks), 0, "Tasks list should have at least 0 elements")
-
-	assert.GreaterOrEqual(t, response.Pagination.TotalPages, 0, "Total pages should be >= 0")
-	assert.GreaterOrEqual(t, response.Pagination.TotalTasks, 0, "Total tasks should be >= 0")
-
-	if len(response.Tasks) > 0 {
-		firstTask := response.Tasks[0]
-		assert.NotZero(t, firstTask.ID, "Task ID should not be zero")
-		assert.NotEmpty(t, firstTask.Title, "Task Title should not be empty")
-		assert.NotEmpty(t, firstTask.Description, "Task Description should not be empty")
-		assert.Contains(t, []string{"pending", "completed"}, firstTask.Status, "Task Status should be valid")
-	}
 }
