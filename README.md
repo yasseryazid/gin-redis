@@ -183,7 +183,7 @@ POST /api/logout
 ### **📝 All Tasks Endpoint**
 
 <details>
-  <summary>📌 **1️⃣ Get All Tasks**</summary>
+  <summary>📌 **1. Get All Tasks**</summary>
 
 #### **Request**
 ```http
@@ -225,10 +225,8 @@ GET /api/tasks
 ```
 </details>
 
----
-
 <details>
-  <summary>📌 **2️⃣ Create Task**</summary>
+  <summary>📌 **2. Create Task**</summary>
 
 #### **Request**
 ```http
@@ -266,10 +264,9 @@ POST /api/tasks
 ```
 </details>
 
----
 
 <details>
-  <summary>📌 **3️⃣ Get Task by ID**</summary>
+  <summary>📌 **3. Get Task by ID**</summary>
 
 #### **Request**
 ```http
@@ -298,7 +295,7 @@ GET /api/tasks/:id
 ---
 
 <details>
-  <summary>📌 **4️⃣ Update Task**</summary>
+  <summary>📌 **4. Update Task**</summary>
 
 #### **Request**
 ```http
@@ -336,10 +333,9 @@ PUT /api/tasks/:id
 ```
 </details>
 
----
 
 <details>
-  <summary>📌 **5️⃣ Delete Task**</summary>
+  <summary>📌 **5. Delete Task**</summary>
 
 #### **Request**
 ```http
