@@ -1,7 +1,3 @@
-Berikut adalah **README.md** yang telah diperbarui dengan tambahan **feature test, logging error, dan concurrency** pada kesimpulan. 🚀  
-
----
-
 ```markdown
 # 🚀 Technical Test API - Go (Gin, GORM, PostgreSQL, JWT, Redis)
 
@@ -10,9 +6,8 @@ Technical Test API adalah **RESTful API** yang dibangun dengan **Go (Gin)** meng
 ---
 
 ## 📌 Fitur Utama
-✅ **Autentikasi & Otorisasi dengan JWT + Redis**  
-✅ **CRUD Tasks dengan caching Redis**  
-✅ **Middleware Proteksi JWT**    
+✅ **Autentikasi & Otorisasi dengan JWT + Redis**
+✅ **CRUD Tasks dengan caching Redis**
 ✅ **Database PostgreSQL dengan GORM**  
 ✅ **Logging setiap error untuk debugging**  
 ✅ **Concurrency pada query & proses parallel task handling**  
@@ -20,24 +15,16 @@ Technical Test API adalah **RESTful API** yang dibangun dengan **Go (Gin)** meng
 
 ---
 
-## 📦 1. Instalasi & Persiapan  
+## 📦 1. Instalasi & Persiapan, Asumsi sudah ada PostgreSQL dan Redis
 ### **Clone Repository**
 ```sh
 git clone https://github.com/yasseryazid/technical-test.git
 cd technical-test
 ```
 
-### **Setup Database (PostgreSQL)**
-#### **a) Jalankan PostgreSQL**
+#### **b) Persiapan Database**
 ```sh
-sudo systemctl start postgresql  # Untuk Linux
-brew services start postgresql   # Untuk macOS (Homebrew)
-```
-
-#### **b) Buat Database**
-```sh
-psql -U postgres
-CREATE DATABASE technical_test;
+Buat Database dengan nama technical_test
 ```
 
 ---
@@ -56,7 +43,7 @@ Jika outputnya `PONG`, Redis berjalan dengan baik.
 ---
 
 ### **Konfigurasi `.env`**
-Buat file **`.env`** dan tambahkan:
+Rename file **`.env-example`** menjadi **`.env`** serta sesuaikan dengan environment Anda:
 ```ini
 DB_HOST=localhost
 DB_USER=postgres
@@ -69,21 +56,17 @@ JWT_SECRET=mysecretkey
 
 REDIS_HOST=localhost
 REDIS_PORT=6379
-REDIS_PASSWORD={{YOUR_REDIS_PASSWORD}}
+REDIS_PASSWORD=YOUR_REDIS_PASSWORD
 ```
 
 ---
 
-## 🚀 2. Menjalankan API  
-### **Jalankan Migrasi Database**
-```sh
-go run cmd/migrate.go
-```
+## 🚀 2. Menjalankan API
 ### **Start API**
 ```sh
 go run cmd/main.go
 ```
-**API berjalan di:** `http://localhost:3000`
+**Main.go akan melakukan migration database ketika pertama kali, serta menjalankan server di:** `http://localhost:3000`
 
 ---
 
@@ -136,14 +119,7 @@ curl -X GET http://localhost:3000/api/tasks \
 
 ---
 
-## 📜 5. Dokumentasi API
-Terdapat dokumentasi lengkap untuk **register, login, CRUD tasks, dan logout**, semua sudah menggunakan **JWT dan Redis**.
-
-Lihat **[Dokumentasi API](#📌-4-endpoints-api)** di atas untuk detailnya.
-
----
-
-## 🔍 6. Menjalankan Pengujian  
+## 🔍 5. Menjalankan Test  
 Jalankan **unit test dan integration test** dengan perintah:
 ```sh
 go test ./tests -v
@@ -165,7 +141,7 @@ PASS
 
 ---
 
-## 📊 7. Logging Setiap Error untuk Debugging
+## 📊 6. Logging Setiap Error untuk Debugging
 Setiap error dalam API akan **tercatat dalam log** menggunakan `log.Println(err)` untuk mempermudah debugging.  
 
 Misalnya dalam middleware autentikasi:
@@ -179,7 +155,7 @@ if err != nil {
 ```
 ---
 
-## ⚡ 8. Implementasi Concurrency untuk Optimasi API
+## ⚡ 7. Implementasi Concurrency
 **Concurrency digunakan pada:**
 - **Get Tasks** → Menggunakan `sync.WaitGroup` untuk query paralel (task list & total count)
 - **Processing Asynchronous Task Handling**
@@ -212,20 +188,17 @@ go func() {
 wg.Wait()
 close(errChan)
 ```
-✅ **Diatas adalah sample implementasi concurrency!** 🚀
+✅ **Diatas adalah sample implementasi concurrency!**
 
 ---
 
-## 🎯 Kesimpulan
-✅ **Clone repository & setup environment**  
+## 🎯 Summary
+✅ **Clone repository & setup environment**
 ✅ **Menjalankan API dengan Redis & PostgreSQL**  
 ✅ **Menggunakan autentikasi JWT dengan Redis**  
-✅ **CRUD Tasks dengan caching dan rate limiting**  
+✅ **CRUD Tasks dan implementasi validation**  
 ✅ **Menjalankan feature test untuk memastikan API berjalan dengan baik**  
 ✅ **Logging setiap error untuk debugging lebih mudah**  
-✅ **Menggunakan concurrency untuk mempercepat eksekusi query dan proses API**  
+✅ **Menggunakan concurrency**  
 
 ```
-
-
-README ini **komprehensif**, menjelaskan **instalasi, API endpoints, testing, logging, dan concurrency**, cocok untuk proyek production-ready. 🚀🔥
