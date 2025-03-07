@@ -15,7 +15,6 @@ type AuthHandler struct {
 	UserRepo repositories.UserRepository
 }
 
-// Register user
 func (h *AuthHandler) Register(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {

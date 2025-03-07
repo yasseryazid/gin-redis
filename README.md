@@ -1,16 +1,16 @@
 ```markdown
 # 🚀 Technical Test API - Go (Gin, GORM, PostgreSQL, JWT, Redis)
 
-Technical Test API adalah **RESTful API** yang dibangun dengan **Go (Gin)** menggunakan **GORM** untuk ORM, **JWT untuk autentikasi**, dan **Redis untuk session management dan caching**.
+Repo ini digunakan untuk kebutuhan technical test RESTful API yang dibangun dengan **Go (Gin)** menggunakan **GORM** untuk ORM, **JWT untuk autentikasi**, dan **Redis untuk session management dan caching**.
 
 ---
 
 ## 📌 Fitur Utama
-✅ **Autentikasi & Otorisasi dengan JWT + Redis**
-✅ **CRUD Tasks dengan caching Redis**
-✅ **Database PostgreSQL dengan GORM**  
-✅ **Logging setiap error untuk debugging**  
-✅ **Concurrency pada query & proses parallel task handling**  
+✅ **Implement CRUD Tasks menggunakan database PostgreSQL dengan GORM**
+✅ **Implement validation**
+✅ **Logging error untuk debugging**  
+✅ **Implement autentikasi & otorisasi dengan JWT**
+✅ **Implement concurrency**  
 ✅ **Feature Test menggunakan `go test` untuk validasi API**  
 
 ---
