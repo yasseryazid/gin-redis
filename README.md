@@ -79,12 +79,6 @@ Payload pada JWT saat ini terdiri dari user_id, username, dan exp sebagai expira
 JWT yang berhasil di generate akan disimpan ke Redis dengan TTL selama 24 jam.
 Ketika logout, token pada redis akan dihapus juga.
 
-### **Logout**
-```sh
-curl -X POST http://localhost:3000/api/logout \
-     -H "Authorization: Bearer YOUR_JWT_TOKEN"
-```
-
 ---
 
 ## 📌 4. Endpoints API  
