@@ -72,25 +72,12 @@ go run cmd/main.go
 ---
 
 ## 🔑 3. Autentikasi (JWT)  
-### **Register**
-```sh
-curl -X POST http://localhost:3000/api/register \
-     -H "Content-Type: application/json" \
-     -d '{"username":"testuser", "password":"password"}'
-```
-
-### **Login & Dapatkan Token**
-```sh
-curl -X POST http://localhost:3000/api/login \
-     -H "Content-Type: application/json" \
-     -d '{"username":"testuser", "password":"password"}'
-```
-✔️ **Response:**  
-```json
-{
-    "token": "YOUR_JWT_TOKEN"
-}
-```
+**JWT sebagai Authentication and Authorization**
+Saat ini endpoint tasks statusnya protected, sehingga untuk menggunkannya dibutuhkan token yang akan digenerate ketika proses register atau login.
+Setiap generate, expiration time pada token adalah 24 jam.
+Payload pada JWT saat ini terdiri dari user_id, username, dan exp sebagai expiration time.
+JWT yang berhasil di generate akan disimpan ke Redis dengan TTL selama 24 jam.
+Ketika logout, token pada redis akan dihapus juga.
 
 ### **Logout**
 ```sh
@@ -101,8 +88,15 @@ curl -X POST http://localhost:3000/api/logout \
 ---
 
 ## 📌 4. Endpoints API  
-Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 
+### **Auth**
+| Method | Endpoint       | Deskripsi |
+|--------|--------------|-------------|
+| `POST`  | `/api/register`  | Buat akun baru |
+| `POST` | `/api/login`  | Login dengan akun yang sudah ada |
+| `POST` | `/api/logout`  | Logout akun |
+
+Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 ### **Tasks (Protected)**
 | Method | Endpoint       | Deskripsi |
 |--------|--------------|-------------|
@@ -120,13 +114,81 @@ Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 | `limit`    | `int`    | Jumlah tasks per halaman (default: `10`) |
 | `search`   | `string` | Cari task berdasarkan `title` atau `description` |
 
-**Contoh request dengan JWT Token:**
+### **Auth Endpoint**
+#### **1. Register**
 ```sh
-curl -X GET http://localhost:3000/api/tasks \
-     -H "Authorization: Bearer YOUR_JWT_TOKEN"
+POST /api/register
+
+```
+#### **Payload**
+```sh
+{
+    "username":"user", 
+    "password":"password"
+}
 ```
 
-**Response get all tasks dengan JWT Token:**
+#### **Response**
+```sh
+{
+    "message": "User registered successfully"
+}
+```
+
+#### **2. Login**
+```sh
+POST /api/login
+
+```
+#### **Payload**
+```sh
+{
+    "username":"user", 
+    "password":"password"
+}
+```
+
+#### **Response**
+```sh
+{
+    "token": "{{TOKEN_GENERATED}}"
+}
+```
+
+#### **3. Logout**
+```sh
+POST /api/logout
+
+```
+#### **Header**
+```sh
+{
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+}
+```
+
+#### **Response**
+```sh
+{
+    "message": "Logged out successfully"
+}
+```
+
+
+### **All Tasks Endpoint**
+#### **1. Get All Task**
+```http
+GET /api/tasks
+```
+
+#### **Header**
+```sh
+{
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+}
+```
+
+**Response**
 ```sh
 {
   "tasks": [
@@ -155,8 +217,7 @@ curl -X GET http://localhost:3000/api/tasks \
 
 ---
 
-#### **Query Parameters Create Task**
-#### **Endpoint**
+#### **2. Create Task**
 ```sh
 POST /api/tasks
 
@@ -194,7 +255,7 @@ POST /api/tasks
 
 ---
 
-### **Get Task by ID**
+### **3. Get Task by ID**
 ```http
 GET /api/tasks/:id
 ```
@@ -219,7 +280,7 @@ GET /api/tasks/:id
 
 ---
 
-### **4️⃣ Update Task**
+### **4. Update Task**
 ```http
 PUT /api/tasks/:id
 ```
@@ -254,7 +315,7 @@ PUT /api/tasks/:id
 
 ---
 
-### **Delete Task**
+### **5. Delete Task**
 ```http
 DELETE /api/tasks/:id
 ```
@@ -274,7 +335,7 @@ DELETE /api/tasks/:id
 
 ---
 
-## 🔍 5. Menjalankan Test  
+## 🔍 5. Run Test  
 Jalankan **unit test dan integration test** dengan perintah:
 ```sh
 go test ./tests -v
