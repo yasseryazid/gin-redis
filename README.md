@@ -110,7 +110,7 @@ Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 
 ### **Auth Endpoint**
 <details>
-  <summary>📌 **1. Register**</summary>
+  <summary>📌 1. Register</summary>
 
 ```sh
 POST /api/register
@@ -133,7 +133,7 @@ POST /api/register
 </details>
 
 <details>
-  <summary>📌 **2. Login**</summary>
+  <summary>📌 2. Login</summary>
 
 ```sh
 POST /api/login
@@ -157,7 +157,7 @@ POST /api/login
 </details>
 
 <details>
-  <summary>📌 **3. Logout**</summary>
+  <summary>📌 3. Logout</summary>
 
 ```sh
 POST /api/logout
@@ -183,7 +183,7 @@ POST /api/logout
 ### **📝 All Tasks Endpoint**
 
 <details>
-  <summary>📌 **1. Get All Tasks**</summary>
+  <summary>📌 1. Get All Tasks</summary>
 
 #### **Request**
 ```http
@@ -226,7 +226,7 @@ GET /api/tasks
 </details>
 
 <details>
-  <summary>📌 **2. Create Task**</summary>
+  <summary>📌 2. Create Task</summary>
 
 #### **Request**
 ```http
@@ -266,7 +266,7 @@ POST /api/tasks
 
 
 <details>
-  <summary>📌 **3. Get Task by ID**</summary>
+  <summary>📌 3. Get Task by ID</summary>
 
 #### **Request**
 ```http
@@ -292,10 +292,8 @@ GET /api/tasks/:id
 ```
 </details>
 
----
-
 <details>
-  <summary>📌 **4. Update Task**</summary>
+  <summary>📌 4. Update Task</summary>
 
 #### **Request**
 ```http
@@ -335,7 +333,7 @@ PUT /api/tasks/:id
 
 
 <details>
-  <summary>📌 **5. Delete Task**</summary>
+  <summary>📌 5. Delete Task</summary>
 
 #### **Request**
 ```http
