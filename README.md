@@ -8,6 +8,7 @@ Repo ini digunakan untuk kebutuhan technical test RESTful API yang dibangun deng
 ## 📌 Fitur Utama
 ✅ **Implement CRUD Tasks menggunakan database PostgreSQL dengan GORM**
 ✅ **Implement validation**
+✅ **Implement filter get all tasks by query parameters**
 ✅ **Logging error untuk debugging**  
 ✅ **Implement autentikasi & otorisasi dengan JWT**
 ✅ **Implement concurrency**  
@@ -66,7 +67,7 @@ REDIS_PASSWORD=YOUR_REDIS_PASSWORD
 ```sh
 go run cmd/main.go
 ```
-**Main.go akan melakukan migration database ketika pertama kali, serta menjalankan server di:** `http://localhost:3000`
+**Main.go akan melakukan migration database ketika pertama kali, serta menjalankan server by default di:** `http://localhost:3000`
 
 ---
 
@@ -111,10 +112,112 @@ Gunakan **JWT Token** untuk mengakses **endpoint tasks**.
 | `PUT`  | `/api/tasks/:id` | Update task |
 | `DELETE` | `/api/tasks/:id` | Delete task |
 
+#### **Query Parameters Get All Tasks**
+| Parameter  | Tipe   | Deskripsi |
+|------------|--------|-------------|
+| `status`   | `string` | Filter tasks berdasarkan status (`pending` / `completed`) |
+| `page`     | `int`    | Nomor halaman untuk pagination (default: `1`) |
+| `limit`    | `int`    | Jumlah tasks per halaman (default: `10`) |
+| `search`   | `string` | Cari task berdasarkan `title` atau `description` |
+
 **Contoh request dengan JWT Token:**
 ```sh
 curl -X GET http://localhost:3000/api/tasks \
      -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+**Contoh response get all tasks dengan JWT Token:**
+```sh
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Meeting with Client",
+      "description": "Discuss project scope",
+      "status": "pending",
+      "due_date": "2025-04-01"
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 2,
+    "total_tasks": 10
+  }
+}
+```sh
+
+---
+
+---
+
+### **2️⃣ Create Task**
+#### **📍 Endpoint**
+```http
+POST /api/tasks
+```
+#### **📥 Request Body**
+```json
+{
+  "title": "New Task",
+  "description": "Complete documentation",
+  "status": "pending",
+  "due_date": "2025-04-01"
+}
+```
+
+#### **📌 Contoh Response**
+```json
+{
+  "message": "Task created successfully",
+  "task": {
+    "id": 12,
+    "title": "New Task",
+    "description": "Complete documentation",
+    "status": "pending",
+    "due_date": "2025-04-01"
+  }
+}
+```
+
+---
+
+### **3️⃣ Get Task by ID**
+```http
+GET /api/tasks/:id
+```
+**Contoh Request:**
+```sh
+curl -X GET "http://localhost:3000/api/tasks/1" -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+---
+
+### **4️⃣ Update Task**
+```http
+PUT /api/tasks/:id
+```
+**Contoh Request:**
+```sh
+curl -X PUT "http://localhost:3000/api/tasks/1" \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+     -d '{
+       "title": "Updated Task",
+       "description": "Updated description",
+       "status": "completed",
+       "due_date": "2025-05-01"
+     }'
+```
+
+---
+
+### **5️⃣ Delete Task**
+```http
+DELETE /api/tasks/:id
+```
+**Contoh Request:**
+```sh
+curl -X DELETE "http://localhost:3000/api/tasks/1" -H "Authorization: Bearer YOUR_JWT_TOKEN"
 ```
 
 ---
@@ -227,7 +330,7 @@ close(errChan)
 ✅ **Clone repository & setup environment**
 ✅ **Menjalankan API dengan Redis & PostgreSQL**  
 ✅ **Menggunakan autentikasi JWT dengan Redis**  
-✅ **CRUD Tasks dan implementasi validation**  
+✅ **Implement CRUD Tasks serta penerapan filternya dengan query param dan implementasi validation**  
 ✅ **Menjalankan feature test untuk memastikan API berjalan dengan baik**  
 ✅ **Logging setiap error untuk debugging lebih mudah**  
 ✅ **Menggunakan concurrency**  
