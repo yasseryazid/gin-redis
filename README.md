@@ -178,25 +178,31 @@ POST /api/logout
 ```
 </details>
 
-### **All Tasks Endpoint**
-#### **1. Get All Task**
+---
+
+### **📝 All Tasks Endpoint**
+
+<details>
+  <summary>📌 **1️⃣ Get All Tasks**</summary>
+
+#### **Request**
 ```http
 GET /api/tasks
 ```
 
 #### **Header**
-```sh
+```json
 {
-  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}"
 }
 ```
 
-**Response**
-```sh
+#### **Response**
+```json
 {
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Meeting with Client",
       "description": "Discuss project scope",
       "status": "pending",
@@ -211,30 +217,33 @@ GET /api/tasks
 }
 ```
 
-**Response get all tasks jika tanpa token:**
-```sh
+#### **Response jika tanpa token**
+```json
 {
   "error": "Authorization header required"
 }
 ```
+</details>
 
 ---
 
-#### **2. Create Task**
-```sh
-POST /api/tasks
+<details>
+  <summary>📌 **2️⃣ Create Task**</summary>
 
+#### **Request**
+```http
+POST /api/tasks
 ```
+
 #### **Header**
-```sh
+```json
 {
-  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}"
 }
 ```
 
-
 #### **Payload**
-```sh
+```json
 {
   "title": "New Task",
   "description": "Complete documentation",
@@ -244,7 +253,7 @@ POST /api/tasks
 ```
 
 #### **Response**
-```sh
+```json
 {
     "message": "Task created successfully",
     "task": {
@@ -255,47 +264,56 @@ POST /api/tasks
     }
 }
 ```
+</details>
 
 ---
 
-### **3. Get Task by ID**
+<details>
+  <summary>📌 **3️⃣ Get Task by ID**</summary>
+
+#### **Request**
 ```http
 GET /api/tasks/:id
 ```
 
 #### **Header**
-```sh
+```json
 {
-  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}"
 }
 ```
 
-**Response:**
-```sh
+#### **Response**
+```json
 {
-  "id": 2,
+  "id": "2",
   "title": "Task 2",
   "description": "Description for Task 2",
   "status": "completed",
   "due_date": "2025-03-12T00:00:00Z"
 }
 ```
+</details>
 
 ---
 
-### **4. Update Task**
+<details>
+  <summary>📌 **4️⃣ Update Task**</summary>
+
+#### **Request**
 ```http
 PUT /api/tasks/:id
 ```
+
 #### **Header**
-```sh
+```json
 {
-  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}"
 }
 ```
 
-**Payload:**
-```sh
+#### **Payload**
+```json
 {
   "title": "Update Task",
   "description": "Update description",
@@ -303,8 +321,9 @@ PUT /api/tasks/:id
   "due_date": "2025-05-01"
 }
 ```
-**Response:**
-```sh
+
+#### **Response**
+```json
 {
     "message": "Task updated successfully",
     "task": {
@@ -315,28 +334,36 @@ PUT /api/tasks/:id
     }
 }
 ```
+</details>
 
 ---
 
-### **5. Delete Task**
+<details>
+  <summary>📌 **5️⃣ Delete Task**</summary>
+
+#### **Request**
 ```http
 DELETE /api/tasks/:id
 ```
+
 #### **Header**
-```sh
+```json
 {
-  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}",]
+  "Authorization": "Bearer {{YOUR_JWT_TOKEN}}"
 }
 ```
 
-**Response:**
-```sh
+#### **Response**
+```json
 {
     "message": "Task deleted successfully"
 }
 ```
+</details>
 
 ---
+
+
 
 ## 🔍 5. Run Test  
 Jalankan **unit test dan integration test** dengan perintah:
