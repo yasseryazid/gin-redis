@@ -144,19 +144,17 @@ curl -X GET http://localhost:3000/api/tasks \
     "total_tasks": 10
   }
 }
+```
+
+---
+
+#### **Query Parameters Get All Tasks**
+#### **Endpoint**
 ```sh
-
----
-
----
-
-### **2️⃣ Create Task**
-#### **📍 Endpoint**
-```http
 POST /api/tasks
 ```
 #### **📥 Request Body**
-```json
+```sh
 {
   "title": "New Task",
   "description": "Complete documentation",
@@ -166,7 +164,7 @@ POST /api/tasks
 ```
 
 #### **📌 Contoh Response**
-```json
+```sh
 {
   "message": "Task created successfully",
   "task": {
