@@ -51,7 +51,7 @@ func insertDummyIntoUserTable() {
 	}
 
 	dummyUsers := []models.User{
-		{Username: "admin", Password: "$2a$10$7QjtOH3oEj0PbTtrO7H7R.hHUpYV1I4L5fWfE3hXZl0R/RY3LfLKm"}, // Password: "password"
+		{Username: "admin", Password: "$2a$10$a1RoSuluLXdshtNXVZQ0Be3V9vVGohPIUVt/26I3kJs.4PQvyYlL6"}, // Password: "password"
 	}
 
 	if err := config.DB.Create(&dummyUsers).Error; err != nil {

@@ -8,7 +8,6 @@ import (
 	"github.com/yasseryazid/technical-test/utils"
 )
 
-// AuthMiddleware verifies JWT and extracts user info
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")

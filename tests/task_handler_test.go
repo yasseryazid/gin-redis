@@ -21,7 +21,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Setup test handler with proper DB initialization
 func setupTestHandler() *handlers.TaskHandler {
 	projectRoot, _ := os.Getwd()
 	envPath := filepath.Join(projectRoot, "../.env")
@@ -43,7 +42,6 @@ func setupTestHandler() *handlers.TaskHandler {
 	return &handlers.TaskHandler{Service: taskService}
 }
 
-// Test Create Task
 func TestCreateTask(t *testing.T) {
 	router := gin.Default()
 	taskHandler := setupTestHandler()
@@ -76,7 +74,6 @@ func TestCreateTask(t *testing.T) {
 	assert.NotZero(t, response.Task.ID, "Task ID should not be zero")
 }
 
-// Test Get Task by ID
 func TestGetTaskByID(t *testing.T) {
 	router := gin.Default()
 	taskHandler := setupTestHandler()
@@ -94,7 +91,6 @@ func TestGetTaskByID(t *testing.T) {
 	assert.NotZero(t, response.ID, "Task ID should not be zero")
 }
 
-// Test Update Task
 func TestUpdateTask(t *testing.T) {
 	router := gin.Default()
 	taskHandler := setupTestHandler()
@@ -128,7 +124,6 @@ func TestUpdateTask(t *testing.T) {
 	assert.Equal(t, "completed", response.Task.Status)
 }
 
-// Test Delete Task
 func TestDeleteTask(t *testing.T) {
 	router := gin.Default()
 	taskHandler := setupTestHandler()
@@ -149,7 +144,6 @@ func TestDeleteTask(t *testing.T) {
 	assert.Equal(t, "Task deleted successfully", response.Message)
 }
 
-// Test Get All Tasks
 func TestGetAllTasks(t *testing.T) {
 	router := gin.Default()
 	taskHandler := setupTestHandler()
