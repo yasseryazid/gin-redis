@@ -17,6 +17,9 @@ Repo ini dibuat sebagai **Technical Test API** menggunakan **Go** dengan **Gin F
 ---
 
 ## 📌 **1. Instalasi** 
+
+Untuk melakukan proses instalasi project, wajib sudah memiliki Go (minimal versi terbaru yang stabil), PostgreSQL, Redis, dan Git terinstal di sistem Anda.
+
 ### **a) Setup Project**
 #### **Clone Repository**
 ```sh
