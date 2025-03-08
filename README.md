@@ -364,8 +364,11 @@ Jalankan **unit test dan integration test** dengan perintah:
 ```sh
 go test ./tests -v
 ```
-✔️ **Expected Output:**  
-```
+
+<details>
+  <summary>📌 Expected Result</summary>
+
+```sh
 === RUN   TestCreateTask
 [GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
 
@@ -378,38 +381,48 @@ go test ./tests -v
 2025/03/07 08:34:26 [V] Task created successfully: ID 14
 [GIN] 2025/03/07 - 08:34:26 | 201 |   11.914292ms |                 | POST     "/api/tasks"
 --- PASS: TestCreateTask (0.06s)
+
 === RUN   TestGetTaskByID
 2025/03/07 08:34:26 [V] .env file loaded successfully
 2025/03/07 08:34:26 [V] Task retrieved: ID 14
 [GIN] 2025/03/07 - 08:34:26 | 200 |    2.204958ms |                 | GET      "/api/tasks/14"
 --- PASS: TestGetTaskByID (0.00s)
+
 === RUN   TestUpdateTask
 2025/03/07 08:34:26 [V] .env file loaded successfully
 2025/03/07 08:34:26 [V] Task updated successfully: ID 14
 [GIN] 2025/03/07 - 08:34:26 | 200 |    2.656084ms |                 | PUT      "/api/tasks/14"
 --- PASS: TestUpdateTask (0.00s)
+
 === RUN   TestDeleteTask
 2025/03/07 08:34:26 [V] .env file loaded successfully
 2025/03/07 08:34:26 [V] Task deleted successfully: ID 14
 [GIN] 2025/03/07 - 08:34:26 | 200 |       905.5µs |                 | DELETE   "/api/tasks/14"
 --- PASS: TestDeleteTask (0.00s)
+
 === RUN   Test_CreateTask
 --- PASS: Test_CreateTask (0.00s)
+
 === RUN   Test_GetTaskByID
 --- PASS: Test_GetTaskByID (0.00s)
+
 === RUN   Test_UpdateTask
 --- PASS: Test_UpdateTask (0.00s)
+
 === RUN   Test_DeleteTask
 --- PASS: Test_DeleteTask (0.00s)
+
 === RUN   TestGetTasks
 --- PASS: TestGetTasks (0.00s)
+
 === RUN   TestGetTaskByID_NotFound
 --- PASS: TestGetTaskByID_NotFound (0.00s)
+
 PASS
 ok      github.com/yasseryazid/technical-test/tests     0.440s
 PASS
-```
 
+</details> ```
 ---
 
 ## 📊 6. Logging Setiap Error untuk Debugging
