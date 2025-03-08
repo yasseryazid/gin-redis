@@ -1,4 +1,3 @@
-```markdown
 # 🚀 Technical Test API - Go (Gin, GORM, PostgreSQL, JWT, Redis)
 
 Repo ini digunakan untuk kebutuhan Technical Test.
