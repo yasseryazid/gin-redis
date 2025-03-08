@@ -17,25 +17,26 @@ Repo ini dibuat sebagai **Technical Test API** menggunakan **Go** dengan **Gin F
 ---
 
 ## 📌 **1. Instalasi** 
-#### **a) Clone Repository**
+### **a) Setup Project**
+#### **Clone Repository**
 ```sh
 git clone https://github.com/yasseryazid/technical-test.git
 cd technical-test
 ```
 
-#### **b) Persiapan Database**
+#### **Persiapan Database**
 ```sh
 Buat Database dengan nama technical_test
 ```
 
 ---
 
-### **Setup Redis**
-#### **a) Jalankan Redis**
+### **b) Setup Redis**
+#### **Jalankan Redis**
 ```sh
 redis-server
 ```
-#### **b) Cek Redis Berjalan**
+#### **Cek Redis Berjalan**
 ```sh
 redis-cli ping
 ```
@@ -43,7 +44,7 @@ Jika outputnya `PONG`, Redis berjalan dengan baik.
 
 ---
 
-### **Konfigurasi `.env`**
+### **c) Konfigurasi `.env`**
 Rename file **`.env-example`** menjadi **`.env`** serta sesuaikan dengan environment Anda:
 ```ini
 DB_HOST=localhost
