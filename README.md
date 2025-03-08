@@ -71,13 +71,38 @@ go run cmd/main.go
 
 ---
 
-## 🔑 3. Autentikasi (JWT)  
-**JWT sebagai Authentication and Authorization**
-Saat ini endpoint tasks statusnya protected, sehingga untuk menggunkannya dibutuhkan token yang akan digenerate ketika proses register atau login.
-Setiap generate, expiration time pada token adalah 24 jam.
-Payload pada JWT saat ini terdiri dari user_id, username, dan exp sebagai expiration time.
-JWT yang berhasil di generate akan disimpan ke Redis dengan TTL selama 24 jam.
-Ketika logout, token pada redis akan dihapus juga.
+## 🔑 3. Autentikasi (JWT)**  
+
+### **🔐 JWT sebagai Authentication & Authorization**  
+Untuk mengakses endpoint **Tasks**, autentikasi menggunakan **JWT (JSON Web Token)** diperlukan. Token akan **dihasilkan saat proses registrasi atau login** dan digunakan untuk otorisasi dalam setiap request ke endpoint yang dilindungi.  
+
+---
+
+### **📌 Mekanisme JWT dalam API Ini**  
+
+✅ **Token JWT Digunakan untuk Autentikasi & Otorisasi**  
+✅ **Token Memiliki Masa Berlaku (`exp`) selama 24 jam**  
+✅ **Payload JWT Berisi:**
+   - **`user_id`** → Identifikasi pengguna  
+   - **`username`** → Nama pengguna  
+   - **`exp`** → Waktu kedaluwarsa token  
+
+✅ **JWT Disimpan di Redis dengan TTL (`Time-To-Live`) selama 24 jam**  
+✅ **Saat Logout, Token akan Dihapus dari Redis**  
+
+---
+
+### **📌 Alur Penggunaan JWT dalam API**
+1. **Pengguna melakukan Register/Login**  
+   - Sistem akan menghasilkan JWT dengan masa berlaku **24 jam**  
+   - Token akan **disimpan di Redis** dengan **TTL 24 jam**  
+
+2. **Pengguna Menggunakan JWT untuk Mengakses Endpoint Terproteksi**  
+   - Setiap request ke **Tasks API** harus menyertakan **Bearer Token** dalam **Authorization Header**  
+   - Sistem akan **memvalidasi token** sebelum mengizinkan akses  
+
+3. **Saat Logout, Token Dihapus dari Redis**  
+   - Token yang tersimpan di Redis akan dihapus, sehingga **pengguna harus login kembali** untuk mendapatkan token baru  
 
 ---
 
@@ -424,6 +449,7 @@ go test ./tests -v
 
     ``` 
 </details> 
+
 ---
 
 ## 📊 6. Logging Setiap Error untuk Debugging
@@ -438,6 +464,7 @@ if err != nil {
     return
 }
 ```
+
 ---
 
 ## ⚡ 7. Implementasi Concurrency
@@ -445,7 +472,7 @@ if err != nil {
 - **Get Tasks** → Menggunakan `sync.WaitGroup` untuk query paralel (task list & total count)
 - **Processing Asynchronous Task Handling**
 
-Contoh di `repositories/task_repository.go`:
+Contoh dapat kita lighat di `repositories/task_repository.go`:
 ```go
 var wg sync.WaitGroup
 errChan := make(chan error, 2)
@@ -473,7 +500,6 @@ go func() {
 wg.Wait()
 close(errChan)
 ```
-✅ **Diatas adalah sample implementasi concurrency!**
 
 ---
 
