@@ -16,7 +16,7 @@ Repo ini dibuat sebagai **Technical Test API** menggunakan **Go** dengan **Gin F
 
 ---
 
-### **Instalasi**
+## 📌 **1. Instalasi** 
 #### **a) Clone Repository**
 ```sh
 git clone https://github.com/yasseryazid/technical-test.git
