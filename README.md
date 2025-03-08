@@ -1,7 +1,8 @@
 ```markdown
 # 🚀 Technical Test API - Go (Gin, GORM, PostgreSQL, JWT, Redis)
 
-Repo ini digunakan untuk kebutuhan technical test RESTful API yang dibangun dengan **Go (Gin)** menggunakan **GORM** untuk ORM, **JWT untuk autentikasi**, dan **Redis untuk session management dan caching**.
+Repo ini digunakan untuk kebutuhan Technical Test.
+Anda bisa clone dan install untuk mencoba.
 
 ---
 
