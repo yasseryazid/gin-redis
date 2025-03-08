@@ -17,8 +17,8 @@ Anda bisa clone dan install untuk mencoba.
 
 ---
 
-## 📦 1. Instalasi & Persiapan, Asumsi sudah ada PostgreSQL dan Redis
-### **Clone Repository**
+### **Instalasi**
+#### **a) Clone Repository**
 ```sh
 git clone https://github.com/yasseryazid/technical-test.git
 cd technical-test
